@@ -24,10 +24,13 @@ supports server-side filtering by form type and date range. The browse-edgar CGI
 (`/cgi-bin/browse-edgar`) returns HTML that requires parsing and is less stable
 across SEC maintenance windows.
 
-**3. CIK extracted from accession number, not a separate lookup**
-An accession number's first 10 digits are always the filer's zero-padded CIK
-(e.g. `0001234567-25-000001` → CIK `1234567`). This avoids one HTTP round-trip
-per filing.
+**3. Company CIK from `ciks[]`, not the accession number prefix**
+The accession number prefix belongs to the **filing agent** (e.g. Toppan Merrill,
+Edgar Filing Services), not the registrant. For companies that use a filing agent,
+extracting CIK from the accession prefix yields the wrong entity. The EFTS
+`_source.ciks[]` array contains the registrant's CIK and is always correct.
+Fallback to the accession prefix is retained only for the rare case where `ciks[]`
+is absent from the EFTS response.
 
 **4. Both S-1 and S-1/A included**
 Amendments signal active filings where companies are responding to SEC staff
@@ -68,7 +71,8 @@ A sequential scraper respecting a 5 req/s rate limit has no use for async I/O.
 `requests` is the most recognized library in the data-engineering ecosystem and
 the simplest dependency story for clients who might want to extend this.
 
-**11. Sample CSV is manually curated, not generated from a live run**
-Ensures the repo is self-contained and reproducible without network access.
-Company names, accession numbers, and metadata are representative of real EDGAR
-filings but are not real companies. URL structure matches real EDGAR conventions.
+**11. Sample CSV is generated from a real live run**
+`data/sample_output.csv` is produced by running the scraper against the actual
+EDGAR API and committing the output. Every company, CIK, accession number, and
+URL in the file is real and verifiable. `verify.py` step 4 confirms this on every
+pre-ship check. Fabricated sample data is never acceptable in a portfolio piece.

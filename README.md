@@ -62,6 +62,7 @@ python scrape.py --days 30 --max 50 --output recent_s1s.csv
 | `--days` | `90` | Look back N days from today |
 | `--max` | `100` | Maximum filings to fetch |
 | `--output` | `ipo_filings.csv` | Output CSV path |
+| `--rate` | `5.0` | Requests per second (SEC cap is 10.0) |
 
 ### Example output (truncated)
 
@@ -105,11 +106,11 @@ See [`data/sample_output.csv`](data/sample_output.csv). Representative rows:
 | `filing_date` | 1 | Date filed |
 | `form_type` | 1 | `S-1` or `S-1/A` |
 | `business_location` | 1 | City, state from EFTS |
-| `state_of_inc_search` | 1 | State of incorporation from EFTS (two-letter code) |
+| `state_of_inc_search` | 1 | State of incorporation from EFTS (two-letter US code or SEC foreign-country code, e.g. `E9` = Cayman Islands) |
 | `filing_number` | 1 | SEC file number (e.g. `333-287641`) |
 | `sic_code` | 2 | SIC industry code |
 | `sic_description` | 2 | SIC industry description |
-| `state_of_incorporation` | 2 | State of incorporation from submissions endpoint |
+| `state_of_incorporation` | 2 | State of incorporation from submissions endpoint (same coding as above; `E9` = Cayman Islands, `X2` = Canada, etc.) |
 | `tickers` | 2 | Ticker symbol(s), comma-separated (blank if not yet listed) |
 | `exchanges` | 2 | Exchange(s), comma-separated (blank if not yet listed) |
 | `category` | 2 | SEC filer category (e.g. `Emerging growth company`) |

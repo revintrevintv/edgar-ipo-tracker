@@ -41,6 +41,10 @@ def main() -> None:
         default=os.environ.get("EDGAR_USER_AGENT", ""),
         help="contact string for SEC User-Agent, e.g. 'Name email@domain.com'",
     )
+    parser.add_argument(
+        "--rate", type=float, default=5.0,
+        help="max requests per second (default: 5.0; SEC cap is 10.0)",
+    )
     args = parser.parse_args()
 
     if not args.user_agent:
@@ -53,7 +57,7 @@ def main() -> None:
     end_date = date.today()
     start_date = end_date - timedelta(days=args.days)
 
-    client = EdgarClient(user_agent=args.user_agent)
+    client = EdgarClient(user_agent=args.user_agent, requests_per_second=args.rate)
 
     print(f"Stage 1  searching S-1 filings {start_date} to {end_date} (max {args.max})")
     filings = search_s1_filings(client, str(start_date), str(end_date), max_results=args.max)

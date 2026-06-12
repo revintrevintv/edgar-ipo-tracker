@@ -9,3 +9,4 @@ build/
 .env
 *.csv
 !data/sample_output.csv
+_verify_steps1-4.md

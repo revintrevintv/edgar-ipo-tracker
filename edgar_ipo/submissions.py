@@ -1,7 +1,11 @@
 """Stage 2: enrich filings with company metadata from the EDGAR submissions endpoint."""
 
+import re
 import sys
 from typing import List
+
+_BR_RE = re.compile(r"<br\s*/?>", re.IGNORECASE)
+_TAG_RE = re.compile(r"<[^>]+>")
 
 from .client import EdgarClient
 from .models import S1Filing
@@ -29,7 +33,9 @@ def enrich_with_submissions(client: EdgarClient, filings: List[S1Filing]) -> Lis
         filing.sic_code = data.get("sic", "")
         filing.sic_description = data.get("sicDescription", "")
         filing.state_of_incorporation = data.get("stateOfIncorporation", "")
-        filing.category = data.get("category", "")
+        # category can contain "<br>" separators — strip to plain text
+        raw_category = data.get("category", "")
+        filing.category = _TAG_RE.sub("", _BR_RE.sub("; ", raw_category)).strip()
 
         tickers = [t for t in data.get("tickers", []) if t]
         exchanges = [e for e in data.get("exchanges", []) if e]
