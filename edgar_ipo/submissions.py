@@ -23,15 +23,18 @@ def enrich_with_submissions(client: EdgarClient, filings: List[S1Filing]) -> Lis
             )
             continue
 
+        # Submissions endpoint is the authoritative source for company name
+        if data.get("name"):
+            filing.company_name = data["name"]
         filing.sic_code = data.get("sic", "")
         filing.sic_description = data.get("sicDescription", "")
         filing.state_of_incorporation = data.get("stateOfIncorporation", "")
         filing.category = data.get("category", "")
 
-        tickers = data.get("tickers", [])
-        exchanges = data.get("exchanges", [])
-        filing.tickers = ", ".join(tickers) if tickers else ""
-        filing.exchanges = ", ".join(exchanges) if exchanges else ""
+        tickers = [t for t in data.get("tickers", []) if t]
+        exchanges = [e for e in data.get("exchanges", []) if e]
+        filing.tickers = ", ".join(tickers)
+        filing.exchanges = ", ".join(exchanges)
 
         if i % 10 == 0 or i == total:
             print(f"  {i}/{total} companies enriched")

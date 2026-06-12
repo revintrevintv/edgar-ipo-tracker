@@ -4,6 +4,15 @@ Decisions made during initial build, with reasoning.
 
 ---
 
+**0. EFTS schema discovery: use `adsh`, `ciks[]`, and `display_names[]`**
+The EFTS `_id` field is `{accession}:{primary_doc_filename}`, not a bare
+accession number. The clean accession is in `_source.adsh`. The company CIK is
+in `_source.ciks[]` — distinct from the filing-agent CIK that prefixes the
+accession number. Company name is in `_source.display_names[]` as
+`"Name (CIK 0001234567)"` and requires stripping the CIK suffix. All
+location/state/file fields (`biz_locations`, `inc_states`, `file_num`) are
+arrays. Confirmed by inspecting a live EFTS response.
+
 **1. Rate limit: 5 req/s (half of SEC's cap)**
 SEC's published limit is 10 req/s. Using 5 req/s keeps the tool well-behaved
 even when running alongside other EDGAR tools and avoids 429s during development

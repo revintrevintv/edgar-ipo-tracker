@@ -89,11 +89,11 @@ See [`data/sample_output.csv`](data/sample_output.csv). Representative rows:
 
 | company_name | filing_date | form_type | sic_description | state_of_incorporation | total_documents |
 |---|---|---|---|---|---|
-| TechVault Holdings Inc. | 2025-05-14 | S-1 | Prepackaged Software | DE | 47 |
-| GreenPath Energy Solutions Inc. | 2025-04-22 | S-1 | Crude Petroleum & Natural Gas | DE | 38 |
-| MedCore Diagnostics Inc. | 2025-05-30 | S-1/A | Commercial Physical & Biological Research | DE | 61 |
-| Meridian Payments Group Inc. | 2025-05-07 | S-1 | Functions Related to Depository Banking | DE | 53 |
-| DataSphere Analytics Corp. | 2025-04-09 | S-1 | Prepackaged Software | DE | 44 |
+| Southern Cross Acquisition I Corp. | 2026-06-12 | S-1 | Blank Checks | E9 | 47 |
+| CIMG Inc. | 2026-06-12 | S-1/A | Retail-Miscellaneous Retail | NV | 10 |
+| Narragansett Bancorp, Inc. | 2026-06-12 | S-1 | State Commercial Banks-NEC | MD | 95 |
+| First Carolina Financial Services, Inc. | 2026-06-12 | S-1/A | State Commercial Banks | NC | 38 |
+| ENTRATA, INC. | 2026-06-11 | S-1/A | Services-Prepackaged Software | DE | 46 |
 
 ## Output fields
 
